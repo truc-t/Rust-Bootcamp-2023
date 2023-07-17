@@ -6,14 +6,19 @@ fn exercise1() {
     let float = Position { x: 1.0, y: 4.0 };
 }
 
+struct Position<T> {
+    x: T,
+    y: T,
+}
 
 
+ 
 // Exercise 2
 // Modify this struct to make the code work
 // Make it compile
 struct Point<T> {
     x: T,
-    y: T,
+    y: String,
 }
 
 fn exercise2() {
@@ -26,12 +31,12 @@ fn exercise2() {
 // Exercise 3
 // Make it compile
 // Add generic for Val to make the code work, DON'T modify the code in `main`.
-struct Val {
-    val: f64,
+struct Val<T> {
+    val: T,
 }
 
-impl Val {
-    fn value(&self) -> &f64 {
+impl<T> Val<T> {
+    fn value(&self) -> &T {
         &self.val
     }
 }
@@ -43,30 +48,37 @@ fn exercise3() {
     println!("{}, {}", x.value(), y.value());
 }
 
+
 // Exercise 4
 // Find the maximum value in a collection
 // Make it compile
 // Implementing logic
 // Run tests
 
-fn find_max<T>(collection: &[T]) -> Option<&T> {
-    todo!()
+fn find_max<T: Ord>(collection: &[T]) -> Option<&T> {
+    collection.iter().max()
 }
 
 // Exercise 5 
 // Reverse the elements in a collection
 // Make it compile 
 // Run tests 
-fn reverse_collection<T>(collection: &[T]) {
-    todo!()
+fn reverse_collection<T>(collection: &mut [T]) {
+    collection.reverse()
 }
 
 
 // Exercise 6
 // Function to check if a collection contains a specific value
-fn contains_value<T>(collection: &[T], value: &T) -> bool {
-    todo!()
+fn contains_value<T: PartialEq>(collection: &[T], value: &T) -> bool {
+    for element in collection {
+        if element == value {
+            return true;
+        }
+    }
+    false
 }
+
 
 // Unit tests
 #[cfg(test)]
@@ -140,5 +152,4 @@ mod tests {
         let empty: Vec<i32> = Vec::new();
         assert_eq!(contains_value(&empty, &5), false);
     }
-
 }
